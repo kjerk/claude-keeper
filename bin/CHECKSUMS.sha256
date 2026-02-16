@@ -1,0 +1,13 @@
+# esbuild v0.27.3 - vendored binaries
+# Source: https://www.npmjs.com/package/@esbuild/linux-x64 (esbuild)
+#         https://www.npmjs.com/package/@esbuild/win32-x64 (esbuild.exe)
+# Pulled: 2026-02
+# 
+# Provenance References:
+# https://www.npmjs.com/package/@esbuild/linux-x64/file/fd49340cbb5f7ca3ce6f313db78d056de21f07338135ec8dfad63294a304fd2c
+# https://www.npmjs.com/package/@esbuild/win32-x64/file/f0dd2091eaf58d11b96c64e0c4516f8ecf94486a28d2a8e7a968bd6770db3ffe
+# 
+# Verify with: sha256sum -c CHECKSUMS.sha256
+
+fd49340cbb5f7ca3ce6f313db78d056de21f07338135ec8dfad63294a304fd2c  esbuild
+f0dd2091eaf58d11b96c64e0c4516f8ecf94486a28d2a8e7a968bd6770db3ffe  esbuild.exe
