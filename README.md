@@ -4,9 +4,7 @@ An UNOFFICIAL local-first conversation viewer for exported Claude AI chats. Ever
 
 There's also a companion Tampermonkey userscript that adds an export button directly to conversations.
 
-<!-- TODO: Add screenshot -->
-![Claude Keeper](docs/screenshot.png)
-
+<video src="docs/keeper-page-demo.mp4" autoplay loop muted playsinline width="100%"></video>
 
 ## Features
 
@@ -22,6 +20,9 @@ There's also a companion Tampermonkey userscript that adds an export button dire
 - Works offline, works forever -- it's just an HTML file
 
 **Userscript** (for exporting from claude.ai)
+
+![Export button on claude.ai](docs/export-example.gif)
+
 - Adds an "Export" button to any conversation on claude.ai
 - Keyboard shortcut: Ctrl+E (Cmd+E on Mac)
 - Downloads the full conversation tree as JSON, including attachments and metadata
