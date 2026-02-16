@@ -3,6 +3,9 @@
 [![CI](https://github.com/kjerk/claude-keeper/actions/workflows/on-push-check.yml/badge.svg)](https://github.com/kjerk/claude-keeper/actions/workflows/on-push-check.yml)
 [![Release](https://img.shields.io/github/v/release/kjerk/claude-keeper)](https://github.com/kjerk/claude-keeper/releases/latest)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Offline First](https://img.shields.io/badge/works-offline-brightgreen)](https://github.com/kjerk/claude-keeper)
+[![No Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen)](https://github.com/kjerk/claude-keeper)
+[![Vanilla JS](https://img.shields.io/badge/vanilla-JS-F7DF1E?logo=javascript&logoColor=000)](https://github.com/kjerk/claude-keeper)
 
 An UNOFFICIAL local-first conversation viewer for exported Claude AI chats. Everything runs in a single standalone HTML file -- no server, no accounts, no telemetry. Your data never leaves your machine. The concept is that you are in control of your data -- forever.
 
