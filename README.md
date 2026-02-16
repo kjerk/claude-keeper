@@ -4,7 +4,7 @@ An UNOFFICIAL local-first conversation viewer for exported Claude AI chats. Ever
 
 There's also a companion Tampermonkey userscript that adds an export button directly to conversations.
 
-<video src="docs/keeper-page-demo.mp4" autoplay loop muted playsinline width="100%"></video>
+https://github.com/user-attachments/assets/c561a4e2-7b00-424f-8427-50628fbf79e4
 
 ## Features
 
