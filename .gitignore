@@ -1,0 +1,40 @@
+# Repo Specific
+/.build/
+/dist/
+/node_modules/
+
+# Developer Scripts
+/*.bat
+*.env
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Scratch Files
+/_backup/
+/_docs/
+/_reference/
+/_scratch/
+/_sep/
+
+# Agentic Files
+/AGENTS.md
+/CLAUDE.md
+
+# IDEs and editors
+/.idea/
+/.vs/
+/.vscode/
+*.sublime-project
+*.sublime-workspace
+*.iml
+atlassian-ide-plugin.xml
+
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
