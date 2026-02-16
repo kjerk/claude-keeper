@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-version="0.0.0">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Keeper</title>
+<script>document.documentElement.setAttribute('data-theme', localStorage.getItem('claude-keeper-theme') || 'dark');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link data-local="vendor/highlight-github-dark-11.11.1.min.css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+<script data-local="vendor/marked-17.0.2.umd.js" src="https://cdn.jsdelivr.net/npm/marked@17.0.2/lib/marked.umd.js"></script>
+<script data-local="vendor/highlight-11.11.1.min.js" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<link data-local="style.css" rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="drop-zone">
+	<div class="drop-area" id="drop-area">
+		<div class="drop-icon">⬡</div>
+		<div class="drop-title">Open a Conversation</div>
+		<div class="drop-subtitle">Drag &amp; drop a conversation JSON file, or browse</div>
+		<button class="drop-browse">Choose file</button>
+		<input type="file" id="file-input" accept=".json,application/json">
+		<div class="drop-hint">Exported from Claude · All data stays local</div>
+	</div>
+</div>
+
+<div class="drag-overlay" id="drag-overlay">
+	<div class="drag-overlay-content">
+		<div class="drop-icon">⬡</div>
+		<div class="drag-overlay-text">Drop to load conversation</div>
+		<div class="drag-overlay-hint">Replaces the current conversation</div>
+	</div>
+</div>
+
+<div id="app">
+	<div class="header">
+		<div class="header-inner">
+			<div class="header-left">
+				<div class="header-logo">C</div>
+				<div class="header-title" id="conv-title"></div>
+			</div>
+			<div class="header-meta">
+				<span class="header-badge" id="conv-model"></span>
+				<div class="theme-picker" id="theme-picker">
+					<button class="header-btn" id="theme-toggle">◐</button>
+					<div class="theme-menu" id="theme-menu"></div>
+				</div>
+				<button class="header-btn" id="open-btn" title="Open another file">
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+					Open
+				</button>
+				<button class="header-btn" id="close-btn" title="Close conversation">
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="messages">
+		<div class="messages-inner" id="messages-container"></div>
+	</div>
+</div>
+
+<!-- Attachment Side Panel -->
+<div class="panel-overlay" id="panel-overlay"></div>
+<div class="panel" id="panel">
+	<div class="panel-resize" id="panel-resize"></div>
+	<div class="panel-header">
+		<div class="panel-title-area">
+			<div class="panel-filename" id="panel-filename"></div>
+			<div class="panel-filemeta" id="panel-filemeta"></div>
+		</div>
+		<div class="panel-actions">
+			<button class="panel-btn" id="panel-copy-btn" title="Copy contents">
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+				Copy
+			</button>
+			<button class="panel-btn" id="panel-save-btn" title="Save file">
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+				Save
+			</button>
+			<button class="panel-close" id="panel-close-btn" title="Close">×</button>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="panel-content" id="panel-content"></div>
+	</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script data-local="../.build/bundle.js" type="module" src="src/main.js"></script>
+</body>
+</html>
