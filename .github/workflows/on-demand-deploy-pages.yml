@@ -20,17 +20,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: FETCH - Download lite build from latest release
+      - name: FETCH - Download builds from latest release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p _site
           gh release download --repo ${{ github.repository }} \
-            --pattern 'claude-keeper-lite-*.html' \
+            --pattern 'claude-keeper-*.html' \
             --dir _site
+
           LITE_FILE=$(ls _site/claude-keeper-lite-*.html)
-          mv "$LITE_FILE" _site/index.html
-          echo "Deployed: $(basename "$LITE_FILE") as index.html"
+          FULL_FILE=$(ls _site/claude-keeper-[0-9]*.html)
+
+          cp "$LITE_FILE" _site/index.html
+          mv "$LITE_FILE" _site/claude-keeper-lite.html
+          mv "$FULL_FILE" _site/claude-keeper-full.html
+
+          echo "Site contents:"
+          ls -la _site/
 
       - name: SETUP - Configure Pages
         uses: actions/configure-pages@v5
