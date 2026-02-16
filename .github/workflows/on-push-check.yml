@@ -38,12 +38,19 @@ jobs:
       - name: CHECK - Validate output
         run: |
           test -f dist/claude-keeper.html || { echo "FAIL: dist/claude-keeper.html not found"; exit 1; }
+          test -f dist/claude-keeper-lite.html || { echo "FAIL: dist/claude-keeper-lite.html not found"; exit 1; }
 
-          # Verify key content was inlined
-          grep -q '<style>' dist/claude-keeper.html || { echo "FAIL: CSS not inlined"; exit 1; }
+          # Verify key content was inlined (full build)
+          grep -q '<style type="text/css">' dist/claude-keeper.html || { echo "FAIL: CSS not inlined"; exit 1; }
           grep -q 'ClaudeKeeper' dist/claude-keeper.html || { echo "FAIL: JS not inlined"; exit 1; }
-          grep -q 'marked' dist/claude-keeper.html || { echo "FAIL: marked CDN missing"; exit 1; }
-          grep -q 'highlight' dist/claude-keeper.html || { echo "FAIL: hljs CDN missing"; exit 1; }
+          grep -q 'marked' dist/claude-keeper.html || { echo "FAIL: marked not inlined"; exit 1; }
+          grep -q 'highlight' dist/claude-keeper.html || { echo "FAIL: hljs not inlined"; exit 1; }
 
-          SIZE=$(stat --format=%s dist/claude-keeper.html)
-          echo "OK: dist/claude-keeper.html (${SIZE} bytes)"
+          # Verify lite build kept CDN refs and inlined app code
+          grep -q 'ClaudeKeeper' dist/claude-keeper-lite.html || { echo "FAIL: JS not inlined in lite"; exit 1; }
+          grep -q 'cdn' dist/claude-keeper-lite.html || { echo "FAIL: CDN refs missing in lite"; exit 1; }
+
+          FULL_SIZE=$(stat --format=%s dist/claude-keeper.html)
+          LITE_SIZE=$(stat --format=%s dist/claude-keeper-lite.html)
+          echo "OK: dist/claude-keeper.html (${FULL_SIZE} bytes)"
+          echo "OK: dist/claude-keeper-lite.html (${LITE_SIZE} bytes)"
