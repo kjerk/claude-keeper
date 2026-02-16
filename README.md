@@ -110,4 +110,4 @@ That's it -- the theme picker will find it automatically.
 
 ## License
 
-<!-- TODO: Choose and add license -->
+GPL-3.0 - See [LICENSE](LICENSE)
