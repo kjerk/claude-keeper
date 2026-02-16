@@ -1,0 +1,77 @@
+name: BUILD - Create Release Artifacts
+
+on:
+  release:
+    types: [ published ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    env:
+      VERSION: ${{ github.ref_name }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: BUILD - Stamp version numbers
+        run: |
+          CLEAN_VERSION="${VERSION#v}"
+          echo "Stamping version ${CLEAN_VERSION} (from tag ${VERSION})"
+
+          # Viewer: data-version="0.0.0" → data-version="X.Y.Z"
+          sed -i "s/data-version=\"0.0.0\"/data-version=\"${CLEAN_VERSION}\"/" viewer/index.html
+
+          # Userscript: @version 0.0.0 → @version X.Y.Z
+          sed -i "s/@version      0.0.0/@version      ${CLEAN_VERSION}/" userscript/claude-keeper.user.js
+
+          echo "Viewer version:"
+          grep 'data-version' viewer/index.html
+          echo "Userscript version:"
+          grep '@version' userscript/claude-keeper.user.js
+
+      - name: BUILD - Run build script
+        run: |
+          chmod +x ./bin/esbuild
+          bash build.sh
+
+      - name: BUILD - Prepare release artifacts
+        run: |
+          CLEAN_VERSION="${VERSION#v}"
+          RELEASE_DIR="ClaudeKeeper-${CLEAN_VERSION}"
+
+          mkdir -p "$RELEASE_DIR"
+
+          # Versioned individual files
+          cp dist/claude-keeper.html "claude-keeper-${CLEAN_VERSION}.html"
+          cp dist/claude-keeper-lite.html "claude-keeper-lite-${CLEAN_VERSION}.html"
+          cp userscript/claude-keeper.user.js "claude-keeper-${CLEAN_VERSION}.user.js"
+
+          # Folder for zip (files inside also have version stamps)
+          cp dist/claude-keeper.html "$RELEASE_DIR/claude-keeper-${CLEAN_VERSION}.html"
+          cp dist/claude-keeper-lite.html "$RELEASE_DIR/claude-keeper-lite-${CLEAN_VERSION}.html"
+          cp userscript/claude-keeper.user.js "$RELEASE_DIR/claude-keeper-${CLEAN_VERSION}.user.js"
+
+          # Create zip
+          zip -r "${RELEASE_DIR}.zip" "$RELEASE_DIR"
+
+          echo "Artifacts:"
+          ls -la "claude-keeper-${CLEAN_VERSION}.html"
+          ls -la "claude-keeper-lite-${CLEAN_VERSION}.html"
+          ls -la "claude-keeper-${CLEAN_VERSION}.user.js"
+          ls -la "${RELEASE_DIR}.zip"
+
+      - name: DEPLOY - Upload artifacts to release
+        run: |
+          CLEAN_VERSION="${VERSION#v}"
+          gh release upload ${{ github.ref_name }} \
+            "claude-keeper-${CLEAN_VERSION}.html" \
+            "claude-keeper-lite-${CLEAN_VERSION}.html" \
+            "claude-keeper-${CLEAN_VERSION}.user.js" \
+            "ClaudeKeeper-${CLEAN_VERSION}.zip" \
+            --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

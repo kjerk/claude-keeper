@@ -1,0 +1,14 @@
+{
+	"type": "module",
+	"private": true,
+	"name": "claude-keeper",
+	"description": "Conversation viewer and export tools for Claude AI",
+	"scripts": {
+		"build": "bash build.sh",
+		"lint": "eslint viewer/src/ userscript/"
+	},
+	"devDependencies": {
+		"eslint": "^9.20.0",
+		"@eslint/js": "^9.20.0"
+	}
+}
