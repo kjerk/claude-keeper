@@ -1,0 +1,45 @@
+name: DEPLOY - GitHub Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: FETCH - Download lite build from latest release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p _site
+          gh release download --repo ${{ github.repository }} \
+            --pattern 'claude-keeper-lite-*.html' \
+            --dir _site
+          LITE_FILE=$(ls _site/claude-keeper-lite-*.html)
+          mv "$LITE_FILE" _site/index.html
+          echo "Deployed: $(basename "$LITE_FILE") as index.html"
+
+      - name: SETUP - Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: DEPLOY - Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+      - name: DEPLOY - Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
